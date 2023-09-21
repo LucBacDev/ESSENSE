@@ -1,12 +1,11 @@
 @extends('master')
 @section('content')
     <div class="app-title">
-        <ul class="app-breadcrumb breadcrumb side">
-            <li class="breadcrumb-item active"><a href="#"><b>Danh sách sản phẩm</b></a></li>
-        </ul>
-        <ul class="app-breadcrumb breadcrumb side ">
+      <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item active"><a href="#"><b>Danh sách sản phẩm</b></a></li>
+      </ul>
+      <ul class="app-breadcrumb breadcrumb side ">
             <li class="breadcrumb-item active">
-              
                 <form action="" method="get">
                     <div class="input-group z-index-0">
                         <input type="text" name="keyword" class="input-search form-control rounded" placeholder="Search"
@@ -16,7 +15,7 @@
                 </form>
             </li>
         </ul>
-    </div>                          
+    </div>
 
     {{-- allert notification --}}
     @if (session('notification'))
@@ -84,8 +83,6 @@
           </div>
 
         </div>
-    </div>
-  <div class="d-flex justify-content-center">
-        {{$products->links()}}
+      </div>
     </div>
 @endsection

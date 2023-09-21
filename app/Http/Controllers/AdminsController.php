@@ -4,11 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
-use App\Models\Products;
-use App\Models\Orders;
-use App\Models\Users;
-use App\Models\Categories;
-use DB;
 class AdminsController extends Controller
 {
     /**
@@ -18,17 +13,7 @@ class AdminsController extends Controller
      */
     public function index()
     {
-        $Products = Products::all()->count();
-        $Orders = Orders::all()->count();
-        $Users = Users::where('role',0)->count();
-        $Order_end = Products::where('stock','<',40)->count();
-        $User = Users::orderBy('created_at','ASC')->take(4)->get();
-        $Order = DB::Table('orders')
-                    ->join('users','users.id','=','orders.user_id')
-                    ->orderBy('created_at','ASC')->take(4)
-                    ->select('orders.*','full_name')
-                    ->get();
-        return view('admin.pages.index', compact('Products','Orders','Users','Order_end','User','Order'));
+        return view('admin.pages.index');
     }
     public function loginAdmin()
     {

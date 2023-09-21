@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Attributes;
 use Attribute;
 use Illuminate\Http\Request;
+use App\Http\Requests\Attributes_addRequest;
 
 class AttributeController extends Controller
 {
@@ -17,10 +18,13 @@ class AttributeController extends Controller
     {
         return view('admin.pages.attribute_add');
     }
-    public function attribute_create(Request $request)
+    public function attribute_create(Attributes_addRequest $request)
     {
         $Attribute = Attributes::create($request->all());
-        return redirect()->route('admin.attribute');
+        if ($Attribute) {
+            return redirect()->route('admin.attribute')->with('notification','Thêm Mới Thành Công');
+        }
+        
     }
     public function attribute_update_show ($id)
     {

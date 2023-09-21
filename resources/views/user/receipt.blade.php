@@ -22,7 +22,7 @@
                             <h5>Billing Address</h5>
                         </div>
 
-                        <form action="#" method="post">
+                        <form action="#" method="POST">
                             @csrf
                             <div class="row">
                                 <div class="col-12 mb-3">
@@ -50,13 +50,11 @@
                                     <textarea class="form-control" id="" rows="3" name="note" value="note"></textarea>
                                 </div>
                                 <div class=" col-12 mb-3">
-                                        <label for="exampleSelect1" class="control-label">Khuyến Mại</label>
-                                        <select class="form-control" id="exampleSelect1" name="payment_method"
-                                            value="">
-                                            @foreach ($payment_method as $value)
-                                                <option value="{{$value->id}}"> {{$value->name}}</option>
-                                            @endforeach
-                                        </select>
+                                    <label for="exampleSelect1" class="control-label">Phương thức thanh toán</label>
+                                    <select class="form-control" id="exampleSelect1" name="payment_method" value="">
+                                      
+                                            <option value="1"> Thanh toán khi nhận hàng</option>                                        
+                                    </select>
                                 </div>
                             </div>
                     </div>
@@ -117,14 +115,20 @@
                                     </tr>
                                     <tr>
                                         <th class="pd-15" colspan="6">Total Money: </th>
-                                        <th class="pd-15 text-end" colspan="1">{{ number_format($cart->totalPrice_ship()) }}đ
+                                        <th class="pd-15 text-end" colspan="1">
+                                            {{ number_format($cart->totalPrice_ship()) }}đ
                                         </th>
                                     </tr>
                                 </tbody>
                             </table>
-                            <button type="submit" class="btn-checkout"> <span style="color:white;font-weight:600">Proceed to Payment</span> </button>
+                            <button type="submit" class="btn-checkout"> <span style="color:white;font-weight:600">Proceed
+                                    to Payment</span> </button>
                     </div>
                 </div>
+                </form>
+                <form method="POST" action="{{ route('vnpay') }}">
+                    @csrf
+                    <button type="submit" name="redirect">Thanh toán qua VNPAY</button>
                 </form>
             </div>
         </div>

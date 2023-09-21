@@ -53,6 +53,7 @@ class BrandsController extends Controller
     public function brands_update_update (Request $req ,$id)
     {
         $Brands = Brands::find($id);
+       
         if ($req->hasFile('logo')) {
             $file = $req->logo;
             // get name

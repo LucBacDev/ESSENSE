@@ -29,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
         // share data cart cho nhiều trang
         View::composer('*', function ($view) {
             $view->with('cart', new Cart);
+            $view->with('Categories',\App\Models\Categories::all());
         });
     }
 }

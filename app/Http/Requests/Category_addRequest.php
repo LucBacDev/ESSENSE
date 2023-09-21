@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Requests;
-
+use Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class Category_addRequest extends FormRequest
@@ -24,8 +24,10 @@ class Category_addRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => 'required',
-            'name' => 'required|distinct:name|unique:Categories'
+            // 'name' => 'required|unique:Categories,name,NULL,id,parent_id,'.Auth::user() -> id.'',
+            // 'name' => 'required|distinct:name|unique:Categories,name,parent_id,'. Auth::id()
+            'name' => 'required|distinct:name|unique:Categories,name,parent_id,id'
+
         ];
     }
     public function messages()
@@ -33,8 +35,8 @@ class Category_addRequest extends FormRequest
         return [
             'name.required' => 'Tên Danh Mục không được để trống',
             'name.unique' => 'Tên Đã Được Sử Dụng',
+           
 
-            'type.required' => 'Loại Danh Mục không được để trống',
         ];
     }
 }

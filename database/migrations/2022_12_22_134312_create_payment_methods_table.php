@@ -14,9 +14,15 @@ class CreatePaymentMethodsTable extends Migration
     public function up()
     {
         Schema::create('payment_methods', function (Blueprint $table) {
-            $table->id();
-            $table->string('name',255)->unique();
-            $table->tinyinteger('status')->default(1);
+            $table->bigIncrements('id');
+            $table->integer('p_transaction_id')->nullable();
+            $table->integer('p_user_id')->nullable();
+            $table->float('p_money')->nullable()->comment('Số tiền thanh toán');
+            $table->string('p_note')->nullable()->comment('Ghi chú thanh toán');
+            $table->string('p_vnp_reponse_code', 255)->nullable()->comment('Mã phản hồi');
+            $table->string('p_code_vnpay', 255)->nullable()->comment('Mã giao dịch vnpay');
+            $table->string('p_code_bank', 255)->nullable()->comment('Mã ngân hàng');
+            $table->dateTime('p_time')->nullable()->comment('Thời gian chuyển khoản');
             $table->timestamps();
         });
     }

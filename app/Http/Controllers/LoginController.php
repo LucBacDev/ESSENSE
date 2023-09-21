@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\Users;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\RegisterRequest;
+use Illuminate\Support\Facades\Cache;
 use Auth;
+use Mail;
+use Str;
 
 class LoginController extends Controller
 {
@@ -37,17 +40,22 @@ class LoginController extends Controller
     {
 
         try {
+            $token = strtoupper(Str::random(6));
+            Cache::put('active-token', $token, 1440);
             $User = Users::create([
                 'full_name' => $request->full_name,
                 'email' => $request->email,
-                'phone' => $request->phone,
                 'address' => $request->address,
-                // mã hóa password
-                'password' => Hash::make($request->password)
+                'password' => Hash::make($request->password),
+                'active_token' => $token,
+                'phone' => $request->phone
+
             ]);
+
             if ($User) {
                 return redirect()->route('login')->with('login_success', 'Sign Up Success !');
             }
+
         } catch (\Throwable $th) {
             dd($th);
         }
@@ -67,11 +75,20 @@ class LoginController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
+
         if (Auth::attempt($credentials)) {
-            return redirect()->route('user.index');
-        } else {
-            return redirect()->back()->with('notification', 'Login unsuccessful !');
+            $User = Auth::user();
+            if ($User->status == 1) {
+                return redirect()->route('user.index');
+            } else {
+                Mail::send('mails.get_verification_code', compact('User'), function ($email) use ($User) {
+                    $email->subject('Get Verification Code');
+                    $email->to($User->email, $User->name);
+                });
+                return redirect()->back()->with('notification', 'Your account has not been activated!');
+            }
         }
+
     }
 
     // logout

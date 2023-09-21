@@ -69,7 +69,7 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        
+                       
                         <div class="form-group col-md-3">
                             <label for="exampleSelect1" class="control-label">Thương Hiệu</label>
                             <select class="form-control" id="exampleSelect1" name="brand_id">

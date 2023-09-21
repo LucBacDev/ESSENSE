@@ -24,16 +24,17 @@ class Category_updateRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => 'required',
-            'name' => 'required|distinct:name|unique:Categories'
+        
+            'name' => 'required|distinct:name'
         ];
     }
     public function messages()
     {
         return [
             'name.required' => 'Tên Danh Mục không được để trống',
-            'name.unique' => 'Tên Đã Được Sử Dụng',
-            'type.required' => 'Loại Danh Mục không được để trống',
+            
+          
+
         ];
     }
 }

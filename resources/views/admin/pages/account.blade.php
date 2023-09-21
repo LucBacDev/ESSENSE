@@ -44,8 +44,11 @@
                                        </span>
                                         @endif
                                     </td>
-                                    <td>{{$user->role == 1 ? 'Admin' :  'Người Dùng' }}</td>
+                                    <td>{{$user->role == 1  ? 'Admin' :  'Người Dùng' }}</td>
                                     <td class="table-td-center">
+                                        @if ($user->role != 1)
+                                        <a type="submit" href="{{route('admin.account_update',$user->id)}}" class="btn btn-add">Cấp quyền admin</a>
+                                        @endif
                                         <a type="submit" href="{{route('admin.account_delete',$user->id)}}" class="btn btn-danger">Xóa</a>
                                     </td>
                                 </tr>

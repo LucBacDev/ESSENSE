@@ -5,16 +5,16 @@
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-xl-10">
                     {{-- allert notification --}}
-                        @if (session('notification'))
-                            <div class="alert alert-danger text-center">
-                                {{ session('notification') }}
-                            </div>
-                        @endif
-                        @if (session('login_success'))
-                            <div class="alert alert-success text-center">
-                                {{ session('login_success') }}
-                            </div>
-                        @endif
+                    @if (session('notification'))
+                        <div class="alert alert-danger text-center">
+                            {{ session('notification') }}
+                        </div>
+                    @endif
+                    @if (session('login_success'))
+                        <div class="alert alert-success text-center">
+                            {{ session('login_success') }}
+                        </div>
+                    @endif
                     {{-- allert notification end --}}
                     <div class="card rounded-3 text-black">
                         <div class="row g-0">
@@ -40,17 +40,17 @@
                                             <input type="password" name="password" id="form2Example22"
                                                 class="form-control" />
                                         </div>
-
                                         <div class="d-flex flex-column text-center pt-1 mb-4 pb-1">
                                             <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
                                                 type="submit">Log in</button>
-                                            <a class="text-muted" href="#!">Forgot password?</a>
+                                            <a class="text-muted" href="{{ route('user.mail-active') }}">Active account</a>
+                                            <a class="text-muted" href="{{ route('user.mail-password') }}">Forgot password?</a>
                                         </div>
 
                                         <div class="d-flex align-items-center justify-content-center pb-4">
                                             <p class="mb-0 me-2">Don't have an account?</p>
                                             <button type="button" class="btn btn-outline-danger">
-                                                <a href="{{route('register')}}">Create new</a>
+                                                <a href="{{ route('register') }}">Create new</a>
                                             </button>
                                         </div>
 

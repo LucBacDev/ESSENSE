@@ -12,6 +12,8 @@
 
 <body>
     <!-- header -->
+
+   
     <header class="header-area sticky">
         <div class="container-fuild">
             <div class="row">
@@ -24,18 +26,29 @@
                         <!-- end logo -->
                         <div class="nav-menu">
                             <ul class="d-flex">
-                                <li class="menu-item_shop">
-                                    <a href="" class="icon_shop">New</a>
-                                </li>
-                                <li class="menu-item_shop">
-                                    <a href="{{route('manpro')}}" class="icon_shop">Men</a>
-                                </li>
-                                <li class="menu-item_shop">
-                                    <a href="{{route('womanpro')}}" class="icon_shop">Women</a>
-                                </li>
-                                <li class="menu-item_shop">
-                                    <a href="#" class="icon_shop">Kid's</a>
-                                </li>
+                                @foreach ($Categories as $item)
+                                    <li class="menu-item_shop">
+                                        @if ($item->parent_id == 0)
+                                            <a href="#" class="icon_shop">{{ $item->name }}</a>
+                                        @endif
+                                      
+                                       <div class="megamenu">
+                                            <ul class="single-mega">
+                                                @foreach ($Categories as $itemcon)
+                                                     @if ($item->id == $itemcon->parent_id)
+                                                     <li><a href="shop.html">{{ $itemcon->name }}</a></li>
+                                                @endif
+                                                @endforeach
+                                               
+                                                
+                                            </ul>
+                                            </div>
+                                        
+                                    </li>
+                                    
+                                @endforeach
+
+
                             </ul>
                         </div>
                         <div class="nav-menu nav-menu-none">
@@ -105,7 +118,7 @@
                                     </div>
                                 </li>
                                 <li class="menu-item_shop">
-                                    <a href="{{route('womanpro')}}" class="icon_shop">Women<i class="fa-solid fa-check"></i></a>
+                                    <a href="#" class="icon_shop">Women<i class="fa-solid fa-check"></i></a>
                                     <div class="megamenu">
                                         <ul class="single-mega">
                                             <li class="title">Women's Collection</li>
@@ -209,12 +222,15 @@
                         <!-- Menu -->
                         <div class="classy-menu">
                             <div class="classynav">
+                                @foreach ($Categories as $item)
                                 <ul>
-                                    <li><a href="#">Shop</a></li>
-                                    <li><a href="#">Men</a></li>
-                                    <li><a href="blog.html">women</a></li>
-                                    <li><a href="contact.html">Contact</a></li>
+                                    @if ($item->parent_id == 0)
+                                    <li><a href="#">{{$item->name}}</a></li>
+                                    @endif
+                                   
                                 </ul>
+                                @endforeach
+                             
                             </div>
                             <!-- Nav End -->
                         </div>
@@ -223,17 +239,13 @@
                 <div class="col-lg-5 nav-right">
                     <div class="nav-meta d-flex">
                         <div class="search-area">
-                            <form action="{{route('search')}}" method="get">
-                                <input type="search" name="keyword" id="headerSearch" wire:model="search"
+                            <form action="#" method="get">
+                                <input type="search" name="keyword" id="headerSearch"
                                     placeholder="Type for search">
                                 <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                             </form>
                         </div>
-                        <div class="user-login-info">
-                            <a href="{{ route('show_card') }}">
-                                <i class="fa-brands fa-shopify"></i>
-                            </a>
-                        </div>
+                    
                         <div class="user-login-info">
                             <a href="#">
                                 <i class="fa-regular fa-user" id="essenceCart_User"></i>
@@ -291,7 +303,7 @@
                         <div class="card-body text-center">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">
-                                    <a href="{{ route('OrderManagement') }}" class="card-link">Purchased Orders</a>
+                                    <a href="{{ url('OrderManagement') }}" class="card-link">Purchased Orders</a>
                                 </li>
                                 @if (Auth::check())
                                     <li class="list-group-item">
@@ -374,7 +386,8 @@
                         </div>
                     </div>
                 @else
-                    <h5 class="text-center no-shopping" style="height: 72px;line-height: 80px;">You Have No Products In Shopping Cart !</h5>
+                    <h5 class="text-center no-shopping" style="height: 72px;line-height: 80px;">You Have No Products
+                        In Shopping Cart !</h5>
                 @endif
                 <!--    end cart-summfary -->
             </div>
@@ -389,6 +402,11 @@
     @yield('search')
     @yield('receipt')
     @yield('register')
+    @yield('authenticate')
+    @yield('mail-active')
+    @yield('mail-forgot-password')
+    @yield('payment')
+
 
     <footer class="footer_area">
         <div class="container">
@@ -473,19 +491,6 @@
     <script src="{{ url('assets-user') }}/OwlCarousel/dist/jquery-3.6.2.min.js"></script>
     <script src="{{ url('assets-user') }}/OwlCarousel/dist/owl.carousel.min.js"></script>
     <script src="{{ url('assets-user') }}/js/cart.js"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function()    {
-                $('#sort').on('change',function(){
-                    var url = $(this).val();
-
-                        if(url){
-                            window.location = url               ;
-                        }
-                        return false;
-                });
-        })
-    </script>
 </body>
 
 </html>

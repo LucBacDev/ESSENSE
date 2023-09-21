@@ -11,10 +11,11 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
-        "livewire/livewire": "^2.11"
+        "spatie/laravel-tail": "^4.4"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
+        "jason-guru/laravel-make-repository": "^0.0.3",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",

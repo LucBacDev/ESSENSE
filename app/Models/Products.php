@@ -21,7 +21,6 @@ class Products extends Model
     {
         return $this->belongsTo(Brands::class,'brand_id');
     }
-
     public function getTypeName()
     {
         return $this->belongsTo(Category_type::class,'type');
@@ -48,11 +47,6 @@ class Products extends Model
     {
         return $at = DB::table('product_attrs')->where('product_id',$id_pro)->where('attribute_color_id',$attr_id)->first();
 
-    }
-
-    public function category()
-    {
-        return $this->belongsTo('App\Categories ','category_id');
     }
 }
 

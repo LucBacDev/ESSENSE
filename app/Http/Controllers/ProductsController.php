@@ -16,19 +16,17 @@ use App\Http\Requests\UpdateProductRequest;
 class ProductsController extends Controller
 {
     public function product()
-    {   
-        $products = Products::search()->paginate(6)->withQueryString();
+    {
+        $products = Products::all();
         return view('admin.pages.product',compact('products'));
     }
-    
     public function product_add()
     {
         $category = Categories::all();
-        $cate_type = Category_type::all();
         $brand = Brands::all();
         $size = Attributes::where('name', 'size')->get();
         $color = Attributes::where('name', 'color')->get();
-        return view('admin.pages.product_add', compact('category','cate_type', 'brand', 'size', 'color'));
+        return view('admin.pages.product_add', compact('category', 'brand', 'size', 'color'));
     }
 
     //Create
@@ -68,22 +66,25 @@ class ProductsController extends Controller
 
             }
         }
-        $atrr = $req->attr_size_id;
-        foreach($atrr as $value){
-            Product_Attrs::create([
-                    'product_id' => $product->id,
-                    'attribute_size_id'=> $value
-            ]);
-        }
-       
-        $atrr_color = $req->attr_color_id;
+        // if($product){
+                $atrr = $req->attr_size_id;
+                foreach($atrr as $value){
+                    Product_Attrs::create([
+                     'product_id' => $product->id,
+                     'attribute_size_id'=> $value
+                    ]);
+                }
+        // }
+        // if($product){
+            $atrr_color = $req->attr_color_id;
             foreach($atrr_color as $value){
                 Product_Attrs::create([
                     'product_id' => $product->id,
                     'attribute_color_id'=> $value
                 ]);
-        }
+            }
 
+        // }
 
 
         return redirect()->route('admin.product')->with('notification', 'Thêm mới thành công');

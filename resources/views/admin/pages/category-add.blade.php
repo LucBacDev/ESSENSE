@@ -11,32 +11,24 @@
             <div class="tile">
                 <h3 class="tile-title">Tạo Mới Danh Mục</h3>
                 <div class="tile-body">
-                    <form class="row" method="post">
+                    <form class="row" method="POST">
                         @csrf
-                        {{-- <div class="form-group col-md-3">
-                            <label class="control-label">Loại Danh Mục</label>
-                            <input class="form-control" type="text" name="type">
-                            @error('type')
-                                <div class="alert alert-danger cl-red">{{ $message }}</div>
-                            @enderror
-                        </div> --}}
-                        <div class="form-group col-md-3">
-                            <label for="exampleSelect1" class="control-label">Loại danh mục</label>
-                            <select class="form-control" id="exampleSelect1" name="type"
-                                value="{{ old('type') }}">
-                                <option value="null">-- Chọn Loại Danh mục --</option>
-                                @foreach ($cate_type as $value)
-                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('type')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
                         <div class="form-group col-md-3 ">
-                            <label class="control-label">Tên Danh Mục</label>
+                            <label class="control-label">Tên danh mục</label>
                             <input class="form-control" type="text" name="name">
                             @error('name')
+                                <div class="alert alert-danger cl-red">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="control-label">Danh mục cha</label>
+                            <select class="form-select" name='parent_id'>
+                                <option value='0'>Lựa chọn danh mục cha</option>
+                                @foreach ($Categories as $item)
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                @endforeach
+                              </select>
+                            @error('type')
                                 <div class="alert alert-danger cl-red">{{ $message }}</div>
                             @enderror
                         </div>

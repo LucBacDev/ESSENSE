@@ -20,7 +20,8 @@ class LoginAdmin
         // nếu chưa đăng nhập thì chuyển sang login của admin
         if (!Auth::check()) {
             return redirect()->route('admin.loginAdmin');
-        }else{
+        }
+        else{
             if (Auth::user()->role == 1) {
                 return $next($request);
             }else{

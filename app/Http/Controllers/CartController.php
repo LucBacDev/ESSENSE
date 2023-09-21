@@ -8,7 +8,10 @@ use App\Models\Products;
 use App\Models\Order_details;
 use App\Helper\Cart;
 use App\Models\payment_method;
+use Illuminate\Support\Facades\Cache;
 use Auth;
+use Mail;
+use Str;
 
 class CartController extends Controller
 {
@@ -34,6 +37,8 @@ class CartController extends Controller
         $cart->update($id, $quantity);
         return redirect()->back();
     }
+
+
     public function delete(Cart $cart, $id)
     {
         $cart->delete($id);
@@ -45,7 +50,7 @@ class CartController extends Controller
     {
         if (Auth::check()) {
             $payment_method = payment_method::all();
-            return view('user.receipt',compact('payment_method'));
+            return view('user.receipt', compact('payment_method'));
         } else {
             return redirect()->route('login')->with('notification', 'Please Login To Continue Shopping');
         }
@@ -53,8 +58,11 @@ class CartController extends Controller
     public function Postcheckout(Request $request, Cart $cart)
     {
         try {
+
             $total_qty = 0;
             $total_price = 0;
+            $token = strtoupper(Str::random(20));
+            Cache::put('token_key', $token, 1440);
             foreach ($cart->getItem() as $key => $value) {
                 $total_price = $cart->totalPrice_ship();
                 $total_qty += $value['quantity'];
@@ -66,12 +74,13 @@ class CartController extends Controller
                 "total_price" => $total_price,
                 'phone' => $request->phone,
                 'email' => $request->email,
+                'token' => $token,
                 'address' => $request->address,
                 'note' => $request->note,
                 'payment_method' => $request->payment_method
             ]);
             foreach ($cart->getItem() as $item) {
-                 Order_details::create([
+                Order_details::create([
                     'order_id' => $order->id,
                     'pro_id' => $item['id'],
                     'name' => $item['name'],
@@ -80,8 +89,13 @@ class CartController extends Controller
                     'size' => $item['attribute_size_id']
                 ]);
             }
-            $cart->remove();
-            return redirect()->route('user.index')->with('notification', 'Thank you for your purchase!');
+            Mail::send('mails.Order-confirm.check_order', compact('order'), function ($email) use ($order) {
+                $email->subject('Xác nhận đơn hàng');
+                $email->to($order->email, $order->name);
+
+            });
+
+            return redirect()->route('user.index')->with('notification', 'Thank you for your purchase!, Please check gmail to accept!');
         } catch (\Throwable $th) {
             dd($th);
         }
