@@ -1,131 +1,69 @@
 @extends('master_user')
 @section('product')
-    <!--  right side cart -->
-    <div class="cart-bg-overlay"></div>
-    <div class="right-card-cart">
-        <!-- cart buton -->
-        <a href="#" id="rightSideCart">
-            <i class="fa-solid fa-bag-shopping"></i>
-        </a>
-        <!-- cart buton -->
-
-        <!-- cart-list -->
-        <div class="container-fuild d-flex">
-            <div class="row">
-                <div class="col-4">
-                    <div class="single-cart-item">
-                        <a href="#" class="product-image">
-
-                            <img src="img/product-img/product-1.jpg" class="cart-thumb" alt="">
-
-                            <!-- Cart Item Desc -->
-                            <div class="cart-item-desc">
-                                <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
-                                <span class="badge">Mango</span>
-                                <h6>Button Through Strap Mini Dress</h6>
-                                <p class="size">Size: S</p>
-                                <p class="color">Color: Red</p>
-                                <p class="price">$45.00</p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="single-cart-item">
-                        <a href="#" class="product-image">
-                            <img src="img/product-img/product-2.jpg" class="cart-thumb" alt="">
-                            <!-- Cart Item Desc -->
-                            <div class="cart-item-desc">
-                                <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
-                                <span class="badge">Mango</span>
-                                <h6>Button Through Strap Mini Dress</h6>
-                                <p class="size">Size: S</p>
-                                <p class="color">Color: Red</p>
-                                <p class="price">$45.00</p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="single-cart-item">
-                        <a href="#" class="product-image">
-                            <img src="img/product-img/product-3.jpg" class="cart-thumb" alt="">
-                            <!-- Cart Item Desc -->
-                            <div class="cart-item-desc">
-                                <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
-                                <span class="badge">Mango</span>
-                                <h6>Button Through Strap Mini Dress</h6>
-                                <p class="size">Size: S</p>
-                                <p class="color">Color: Red</p>
-                                <p class="price">$45.00</p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <!-- end cart-list -->
-
-                <!-- cart-summary -->
-                <div class="col-8">
-                    <div class="cart-amount-summary">
-                        <h2>Summary</h2>
-                        <ul class="summary-table">
-                            <li class="d-flex justify-content-between">
-                                <span>subtotal:</span>
-                                <span>$274.00</span>
-                            </li>
-                            <li class="d-flex justify-content-between">
-                                <span>delivery:</span>
-                                <span>Free</span>
-                            </li>
-                            <li class="d-flex justify-content-between">
-                                <span>discount:</span>
-                                <span>-15%</span>
-                            </li>
-                            <li class="d-flex justify-content-between">
-                                <span>total:</span> <span>$232.00</span>
-                            </li>
-                        </ul>
-                        <div class="checkout-btn mt-100">
-                            <a href="checkout.html" class="btn check-btn">check out</a>
-                        </div>
-                    </div>
-                </div>
-                <!--    end cart-summfary -->
-            </div>
-        </div>
-    </div>
-    <!-- right Side Cart end   -->
-
     <!-- product details -->
     <div class="product_details">
         <div class="container-fuild">
-            <div class="row">
+            <div class="row" style="margin-top: 100px">
                 <div class="col-lg-6">
-                    <div class="single_product_thumb">
-                        <div class="product_thumbnail_slides owl-carousel">
+                    <div class="single_product_thumb" style="padding-left: 100px">
+                        <div class="product_thumbnail_slides owl-carousel" id="product-images">
                             @foreach ($prodetail->imgs as $value)
-                                <div class="item">
-                                    <img class="bg-img" src="{{ url('upload.product') }}\{{ $value->image }}"
-                                        alt="">
+                                <div class="item" style="width: 380px; height: 429px; overflow: hidden; margin-left:150px">
+                                    <img class="bg-img" src="{{ url('upload.product') }}\{{ $value->image }}" alt=""
+                                        style="object-fit: cover; max-width: 100%; max-height: 100%;">
                                 </div>
                             @endforeach
+
+                            @foreach ($img as $item)
+                                <div class="item"
+                                    style="width: 380px; height: 429px; overflow: hidden; margin-left:150px">
+                                    <img class="product_image color-{{ $item->attribute_color_id }}"
+                                        src="{{ url('upload.product') }}\{{ $item->image }}" alt=""
+                                        style="object-fit: cover; max-width: 100%; max-height: 100%;">
+                                </div>
+                            @endforeach
+
                         </div>
+                        {{-- <div class="d-flex">
+                            @foreach ($atbdetail as $item)
+                            <button style="margin-right: 30px; font-weight: bold; cursor: pointer; border: 1px solid transparent; background-color: transparent;" onclick="showImage({{ $item->attribute_color_id }}, this)">{{ $item->name }}</button>
+                            @endforeach
+                        </div> --}}
                     </div>
                 </div>
 
                 <div class="col-lg-6">
                     <div class="single_product_desc">
-                       
+
                         <a href="#">
                             <h2>{{ $prodetail->name }}</h2>
                         </a>
+                        <p>
+                        <h6>Màu sắc</h6>
+                        </p>
+                        <div class="d-flex">
+                            @foreach ($atbdetail as $item)
+                                <p data-color-id="{{ $item->attribute_color_id }}"
+                                    data-image="{{ url('upload.product') }}\{{ $item->image }}"
+                                    style="margin-right: 30px; font-weight: bold; cursor: pointer; border: 1px solid transparent; background-color: transparent;"
+                                    onclick="showImage(this)">{{ $item->name }}</p>
+                            @endforeach
+                        </div>
+                        <span>
+                            <h6>Hãng: </h6>{{ $prodetail->getBrandName->name }}
+                        </span>
                         @if ($prodetail->sale_price > 0)
-                            <p class="product-price"><span>{{ number_format($prodetail->price) }}đ</span>{{ number_format($prodetail->sale_price) }}đ</p>
+                            <p class="product-price">
+                                <span>{{ number_format($prodetail->price) }}đ</span>{{ number_format($prodetail->sale_price) }}đ
+                            </p>
                         @else
                             <p class="product-price">{{ number_format($prodetail->price) }}đ</p>
                         @endif
-                        <span>{{ $prodetail->getBrandName->name }}</span>
-                        <p class="product-desc">{!! $prodetail->description !!}</p>
 
                         <!-- Form -->
                         <form action="{{ route('cart.add', $prodetail->id) }}" method="POST">
                             @csrf
+                            <input type="hidden" name="attribute_color_id" id="selected-color">
                             {{-- quantity --}}
                             <div class="quatity">
                                 <label for="">Số Lượng:</label>
@@ -133,44 +71,71 @@
                                     class="quantity-field border-0 text-center w-25">
                             </div>
                             <!-- Select Box -->
-                            <div class="select-box padding-40">
-                                <select name="attribute_size_id" id="productSize">
-                                    @foreach ($prodetail->attrs as $value)
-                                        @if ($value->attribute_size_id != '')
-                                            <option value="{{ $value->getSize($value->attribute_size_id)->value }}"
-                                                name="attribute_size_id">
-                                                {{ $value->getSize($value->attribute_size_id)->value }}
-                                            </option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                                <select name="attribute_color_id" id="productColor">
-                                    @foreach ($prodetail->attrs as $value)
-                                        @if ($value->attribute_color_id != '')
-                                            <option value="{{ $value->getColor($value->attribute_color_id)->value }}"
-                                                name="attribute_color_id">
-                                                {{ $value->getColor($value->attribute_color_id)->value }}
-                                            </option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                            </div>
+
                             <!-- Cart & Favourite Box -->
                             <div class="cart-fav-box d-flex align-items-center">
                                 <!-- Cart -->
                                 <button type="submit" class="btn essence-btn check-btn">Add to
                                     cart</button>
-                                    {{-- <div class="checkout">
+                                {{-- <div class="checkout">
                                         <a href="" class="btn essence-btn check-btn">Checkout</a>
                                     </div> --}}
                             </div>
                         </form>
+
                     </div>
                 </div>
 
+
+            </div>
+            <div class="product-desc">
+                <h4>Thông tin chi tiết</h4>
+                <div class="short-description">
+                    <p class="fonts">{!! $short_description !!}</p>
+                </div>
+                <div class="full-description" style="display: none;">
+                    <p class="fonts">{!! $prodetail->description !!}</p>
+                </div>
+                <button class="show-more-btn">Xem thêm</button>
             </div>
         </div>
     </div>
+    <style>
+        .product-desc {
+            justify-content: center;
+            margin: 0px 0px 400px;
+            padding: 50px 200px;
+        }
+
+        .short-description {
+
+            /* Đặt chiều cao tối đa */
+            overflow: hidden;
+        }
+
+        /* Ẩn phần nội dung dài */
+        .full-description {
+            display: none;
+        }
+
+        .show-more-btn {
+
+            bottom: -50px;
+            /* Đặt vị trí ẩn ban đầu dưới cùng */
+            padding: 10px 20px;
+            background-color: transparent;
+            color: #333;
+            border: 2px solid #333;
+            border-radius: 5px;
+            cursor: pointer;
+            rgb(3, 2, 2) transition: all 0.3s ease;
+        }
+
+        .show-more-btn:hover {
+            background-color: orange;
+            color: #fff;
+        }
+    </style>
     <!-- product details ênd -->
     <script src="{{ url('assets-user') }}/js/cart.js"></script>
     <script src="{{ url('assets-user') }}/OwlCarousel/dist/jquery-3.6.2.min.js"></script>
@@ -189,5 +154,43 @@
             autoplayTimeout: 5000,
             smartSpeed: 1000
         });
+        document.addEventListener('DOMContentLoaded', function() {
+            const showMoreBtn = document.querySelector('.show-more-btn');
+            const fullDescription = document.querySelector('.full-description');
+            const firstColorButton = document.querySelector('[data-color-id]');
+    
+    // Nếu có màu sắc trong danh sách
+    if (firstColorButton) {
+        // Gọi hàm showImage() cho màu sắc đầu tiên
+        showImage(firstColorButton);
+    }
+            showMoreBtn.addEventListener('click', function() {
+                if (fullDescription.style.display === 'none') {
+                    fullDescription.style.display = 'block';
+                    showMoreBtn.textContent = 'Thu gọn';
+                } else {
+                    fullDescription.style.display = 'none';
+                    showMoreBtn.textContent = 'Xem thêm';
+                }
+            });
+        });
+
+        function showImage(element) {
+    // Lấy dữ liệu từ các thuộc tính data của thẻ p
+    const colorId = element.getAttribute('data-color-id');
+    
+    // Đặt giá trị màu vào trường ẩn
+    const selectedColorField = document.getElementById('selected-color');
+    selectedColorField.value = colorId;
+
+    // Xóa lớp active từ tất cả các thẻ p
+    const paragraphs = document.querySelectorAll('[data-color-id]');
+    paragraphs.forEach(para => {
+        para.style.borderColor = 'transparent';
+    });
+
+    // Thêm lớp active cho thẻ p được chọn
+    element.style.borderColor = 'orange';
+}
     </script>
 @endsection

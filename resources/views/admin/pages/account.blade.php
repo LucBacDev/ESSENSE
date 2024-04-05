@@ -4,7 +4,17 @@
         <ul class="app-breadcrumb breadcrumb side">
             <li class="breadcrumb-item active"><a href="#"><b>Danh sách Tài Khoản Người Dùng</b></a></li>
         </ul>
-        <div id="clock"></div>
+        <ul class="app-breadcrumb breadcrumb side ">
+            <li class="breadcrumb-item active">
+                <form action="{{ route ('admin.account') }}" method="get">
+                    <div class="input-group">
+                        <input type="text" name="keyword" class="input-search form-control rounded" placeholder="Nhập họ tên"
+                            aria-label="Search" aria-describedby="search-addon" />
+                        <button type="submit" class="btn-search btn btn-outline-primary">Search</button>
+                    </div>
+                </form>
+            </li>
+        </ul>
     </div>
 
     <div class="row">
@@ -58,5 +68,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        {{ $Users->links() }}
     </div>
 @endsection

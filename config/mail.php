@@ -93,7 +93,7 @@ return [
 
     'from' => [
         'address' => 'lucbacit@gmail.com',
-        'name' => 'ESSENSE',
+        'name' => 'Thế Anh Mobile',
     ],
 
     /*

@@ -4,6 +4,17 @@
         <ul class="app-breadcrumb breadcrumb side">
             <li class="breadcrumb-item active"><a href="#"><b>Danh sách Thương Hiệu</b></a></li>
         </ul>
+        <ul class="app-breadcrumb breadcrumb side ">
+            <li class="breadcrumb-item active">
+                <form action="{{ route ('admin.brands') }}" method="get">
+                    <div class="input-group z-index-0">
+                        <input type="text" name="keyword" class="input-search form-control rounded" placeholder="Nhập tên hãng"
+                            aria-label="Search" aria-describedby="search-addon" />
+                        <button type="submit" class="btn-search btn btn-outline-primary">Search</button>
+                    </div>
+                </form>
+            </li>
+        </ul>
         {{-- allert notification --}}
         @if (session('notification'))
             <div class="alert alert-success">
@@ -34,28 +45,32 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($Brands as $Brands)
+                            @foreach ($Brand as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $Brands->name }}</td>
-                                    @if ($Brands->status == 1)
+                                    <td>{{ $item->name }}</td>
+                                    @if ($item->status == 1)
                                         <td class="m-3 p-1 badge bg-success">Hiện</td>
                                     @else
                                         <td class="m-3 p-1 badge bg-danger">Ẩn</td>
                                     @endif
                                     <td>
-                                        <img src="{{ url('image_brands') }}/{{ $Brands->logo }}" alt=""
+                                        <img src="{{ url('image_brands') }}/{{ $item->logo }}" alt=""
                                             width="50px" height="50px">
                                     </td>
                                     <td class="table-td-center">
-                                        <a href="{{ route('admin.brands_update_show', $Brands->id) }}"
+                                        <a href="{{ route('admin.brands_update_show', $item->id) }}"
                                             class="btn btn-success">Sửa</a>
-                                        <a href="{{ route('admin.brands_delete', $Brands->id) }}"
-                                            class="btn btn-danger">Xóa</a>
+                                        <a href="{{ route('admin.brands_delete', $item->id) }}"
+                                            class="btn btn-danger" onclick = "return confirm('Bạn có muốn xóa?')">Xóa</a>
                                     </td>
                                 </tr>
                             @endforeach
                     </table>
                 </div>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                {{ $Brand->links() }}
             </div>
 @endsection

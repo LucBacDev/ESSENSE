@@ -51,7 +51,7 @@
                         </div>
                         <div class="table-td-center">
                             <button type="submit" class="btn btn-success">Lưu</button>
-                            <a href="{{ route('admin.brands') }}" type="submit" class="btn btn-danger">Hủy</a>
+                            <a href="{{ route('admin.brands') }}" type="submit" class="btn btn-danger" onclick = "return confirm('Bạn có muốn hủy?')">Hủy</a>
                         </div>
                     </form>
                 </div>

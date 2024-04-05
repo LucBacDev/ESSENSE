@@ -21,7 +21,6 @@
                             <tr>
                                 <th>STT</th>
                                 <th>Tên Thuộc Tính</th>
-                                <th>Gía Trị</th>
                                 <th>Tính Năng</th>
                             </tr>
                         </thead>
@@ -30,21 +29,11 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->name }}</td>
-                                    @if ($item->name == 'Color')
-                                        <td>
-                                            <p style="background-color: {{ $item->value }}">
-                                                {{ $item->value }}
-                                            </p>
-                                        </td>
-                                    @endif
-                                    @if ($item->name == 'Size')
-                                        <td>{{ $item->value }}</td>
-                                    @endif
                                     <td class="table-td-center">
                                         <a type="submit" href="{{ route('admin.attribute_update_show', $item->id) }}"
                                             class="btn btn-success">Sửa</a>
                                         <a type="submit" href="{{ route('admin.attribute_delete', $item->id) }}"
-                                            class="btn btn-danger">Xóa</a>
+                                            class="btn btn-danger" onclick = "return confirm('Bạn có muốn xóa?')">Xóa</a>
                                     </td>
                                 </tr>
                             @endforeach

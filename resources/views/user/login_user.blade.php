@@ -22,12 +22,12 @@
                                 <div class="card-body p-md-5 mx-md-4">
 
                                     <div class="text-center">
-                                        <h4 class="mt-1 mb-5 pb-1">We are The ESSENCE Team</h4>
+                                        <h4 class="mt-1 mb-5 pb-1">Thế Anh Mobile</h4>
                                     </div>
 
                                     <form action="" method="post">
                                         @csrf
-                                        <p class="text-center">Please login to your account</p>
+                                        <p class="text-center">Vui Lòng Đăng nhập tài khoản của bạn</p>
 
                                         <div class="form-outline mb-4">
                                             <label class="form-label" for="form2Example11">Email</label>
@@ -36,21 +36,21 @@
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <label class="form-label" for="form2Example22">Password</label>
+                                            <label class="form-label" for="form2Example22">Mật khẩu</label>
                                             <input type="password" name="password" id="form2Example22"
                                                 class="form-control" />
                                         </div>
                                         <div class="d-flex flex-column text-center pt-1 mb-4 pb-1">
                                             <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
-                                                type="submit">Log in</button>
-                                            <a class="text-muted" href="{{ route('user.mail-active') }}">Active account</a>
-                                            <a class="text-muted" href="{{ route('user.mail-password') }}">Forgot password?</a>
+                                                type="submit">Đăng nhập</button>
+                                            <a class="text-muted" href="{{ route('user.mail-active') }}">Kích hoạt tài khoản</a>
+                                            <a class="text-muted" href="{{ route('user.mail-password') }}">Quên mật khẩu</a>
                                         </div>
 
                                         <div class="d-flex align-items-center justify-content-center pb-4">
-                                            <p class="mb-0 me-2">Don't have an account?</p>
+                                            <p class="mb-0 me-2">Nếu bạn không có tài khoản</p>
                                             <button type="button" class="btn btn-outline-danger">
-                                                <a href="{{ route('register') }}">Create new</a>
+                                                <a href="{{ route('register') }}">Đăng ký</a>
                                             </button>
                                         </div>
 
@@ -60,12 +60,9 @@
                             </div>
                             <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
                                 <div class="text-white px-3 py-4 p-md-5 mx-md-4">
-                                    <h4 class="mb-4 text-center">We are not just a group</h4>
-                                    <p class="small mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                                        do eiusmod
-                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                        quis nostrud
-                                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                    <h4 class="mb-4 text-center">Thế Anh Mobile</h4>
+                                    <p class="small mb-0">Số điện thoại: 0949191750</p>
+                                    <p> Địa chỉ: 41 Phố Nguyễn Hoàng, Mỹ Đình 2, Từ Liêm, Hà Nội</p>
                                 </div>
                             </div>
                         </div>

@@ -8,33 +8,15 @@
         </div>
         <div class="row invoice-info">
             <div class="col-sm-4 invoice-col">
-                From
-                <address>
-                    <strong>Admin, Inc.</strong><br>
-                    795 Folsom Ave, Suite 600<br>
-                    San Francisco, CA 94107<br>
-                    Phone: (804) 123-5432<br>
-                    Email: info@almasaeedstudio.com
-                </address>
+                <p>Người nhận: <strong>{{$user->full_name}}</strong><br></p>
+                <p>Địa chỉ: {{$user->address}}</p>
+                <p>Điện thoại: {{$user->email}}</p>
             </div>
 
             <div class="col-sm-4 invoice-col">
-                To
-                <address>
-                    <strong>John Doe</strong><br>
-                    795 Folsom Ave, Suite 600<br>
-                    San Francisco, CA 94107<br>
-                    Phone: (555) 539-1037<br>
-                    Email: john.doe@example.com
-                </address>
-            </div>
-
-            <div class="col-sm-4 invoice-col">
-                <b>Invoice #007612</b><br>
-                <br>
-                <b>Order ID:</b> 4F3S8J<br>
-                <b>Payment Due:</b> 2/22/2014<br>
-                <b>Account:</b> 968-34567
+                <b>Mã đơn hàng: </b> {{$order->id}}<br>
+                <b>Thời Gian Khởi Tạo: </b>{{$order->created_at}}<br>
+                <b>Ghi chú: </b>{{$order->note}}<br>
             </div>
 
         </div>
@@ -45,42 +27,32 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Qty</th>
-                            <th>Product</th>
-                            <th>Serial #</th>
-                            <th>Description</th>
-                            <th>Subtotal</th>
+                            <th>Tên Sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Màu sắc</th>
+                            <th>Giá tiền</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Call of Duty</td>
-                            <td>455-981-221</td>
-                            <td>El snort testosterone trophy driving gloves handsome</td>
-                            <td>$64.50</td>
+                        @foreach ($order_detail as $item)
+                            <tr>
+                            <td>{{$item->name}}</td>
+                            <td>{{$item->quantity}}</td>
+                            @foreach ($product_atb as $value)
+                                @if ($item->pro_id == $value->id)
+                                    @foreach ($attribute as $query)
+                                        @if ($value->attribute_color_id == $query->id)
+                                            <td>{{$query->name}}</td>
+                                        @endif
+                                    @endforeach
+                                @endif
+                            @endforeach
+                            <td>{{ number_format($item->unit_price)}}đ</td>
+                            
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Need for Speed IV</td>
-                            <td>247-925-726</td>
-                            <td>Wes Anderson umami biodiesel</td>
-                            <td>$50.00</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Monsters DVD</td>
-                            <td>735-845-642</td>
-                            <td>Terry Richardson helvetica tousled street art master</td>
-                            <td>$10.70</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Grown Ups Blue Ray</td>
-                            <td>422-568-642</td>
-                            <td>Tousled lomo letterpress</td>
-                            <td>$25.99</td>
-                        </tr>
+                        @endforeach
+                        
+                       
                     </tbody>
                 </table>
             </div>
@@ -89,25 +61,21 @@
 
         <div class="row">
             <div class="col-xs-6">
-                <p class="lead">Amount Due 2/22/2014</p>
+                {{-- <p class="lead">Amount Due 2/22/2014</p> --}}
                 <div class="table-responsive">
                     <table class="table">
                         <tbody>
                             <tr>
-                                <th style="width:50%">Subtotal:</th>
-                                <td>$250.30</td>
+                                <th style="width:50%">Tổng tiền sản phẩm:</th>
+                                <td>{{number_format($total_price)}}</td>
                             </tr>
                             <tr>
-                                <th>Tax (9.3%)</th>
-                                <td>$10.34</td>
+                                <th>Phí vận chuyển</th>
+                                <td>30.000đ</td>
                             </tr>
                             <tr>
-                                <th>Shipping:</th>
-                                <td>$5.80</td>
-                            </tr>
-                            <tr>
-                                <th>Total:</th>
-                                <td>$265.24</td>
+                                <th>Tổng tiền:</th>
+                                <td>{{number_format($total)}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -117,7 +85,7 @@
         </div>
 
 
-        <div class="row no-print">
+        {{-- <div class="row no-print">
             <div class="col-xs-12">
                 <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
                 <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment
@@ -126,6 +94,6 @@
                     <i class="fa fa-download"></i> Generate PDF
                 </button>
             </div>
-        </div>
+        </div> --}}
     </section>
 @endsection

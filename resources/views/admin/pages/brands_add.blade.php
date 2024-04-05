@@ -40,7 +40,8 @@
                         </div>
                         <div class="form-group col-md-12 p-3">
                             <label class="control-label pr-1">Logo</label>
-                            <input type="file" id="" name="logo">
+                            <input type="file"  id="imageInput" name="logo"/>
+                            <div id="imagePreview"  class="m-3"></div>
                             @error('logo')
                                 <div class="alert alert-danger cl-red">{{ $message }}</div>
                             @enderror
@@ -52,4 +53,23 @@
                     </form>
                 </div>
             </div>
+            <script>
+                document.getElementById('imageInput').addEventListener('change', function(event) {
+                  var imagePreview = document.getElementById('imagePreview');
+                  imagePreview.innerHTML = ''; // Clear previous preview
+              
+                  var file = event.target.files[0];
+                  if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                      var img = document.createElement('img');
+                      img.setAttribute('src', e.target.result);
+                      img.setAttribute('alt', 'Preview Image');
+                      img.setAttribute('class', 'img-fluid'); // Optional: adjust class for styling
+                      imagePreview.appendChild(img);
+                    }
+                    reader.readAsDataURL(file);
+                  }
+                });
+              </script>
         @endsection

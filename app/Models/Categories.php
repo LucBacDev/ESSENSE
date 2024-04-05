@@ -9,11 +9,8 @@ class Categories extends Model
 {
     protected $fillable = ['name', 'status', 'parent_id'];
     use HasFactory;
-
-    // used to search
-    public function scopeSearch($query)
-    {
-        // $query = $query->where('type','like','%'.request()->keyword.'%');
+    public static function search($query){
+        $query = $query->where('name','like','%'.request()->keyword.'%');
         return $query;
     }
 }

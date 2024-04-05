@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESSENCE</title>
+    <title>Thế Anh Mobile</title>
     <link rel="icon" href="{{ url('assets-user') }}/img/core-img/favicon.ico">
     <link rel="stylesheet" href="{{ url('assets-user') }}/css/style.css">
 </head>
@@ -13,7 +13,7 @@
 <body>
     <!-- header -->
 
-   
+
     <header class="header-area sticky">
         <div class="container-fuild">
             <div class="row">
@@ -21,7 +21,7 @@
                     <nav class="nav-mie d-flex">
                         <!-- logo -->
                         <a href="{{ route('user.index') }}" class="logo-header">
-                            <img src="{{ url('assets-user') }}/img/core-img/logo.png" alt="">
+                            <img src="{{ url('assets-user') }}/img/theanh.png" alt="" style="object-fit: cover; max-width: 150px; max-height: 200px;">
                         </a>
                         <!-- end logo -->
                         <div class="nav-menu">
@@ -29,28 +29,28 @@
                                 @foreach ($Categories as $item)
                                     <li class="menu-item_shop">
                                         @if ($item->parent_id == 0)
-                                            <a href="#" class="icon_shop">{{ $item->name }}</a>
+                                            <h1><a href="#" class="icon_shop">{{ $item->name }}</a></h1>
+                                            {{-- <a href="{{ route('product', $value->id) }}"> --}}
                                         @endif
-                                      
-                                       <div class="megamenu">
-                                            <ul class="single-mega">
+
+                                        <div class="megamenu" style=" display: flex; flex-wrap: wrap;">
+                                            <ul class="single-mega" style="display: flex; flex-wrap: wrap;">
                                                 @foreach ($Categories as $itemcon)
-                                                     @if ($item->id == $itemcon->parent_id)
-                                                     <li><a href="shop.html">{{ $itemcon->name }}</a></li>
-                                                @endif
+                                                    @if ($item->id == $itemcon->parent_id)
+                                                        <li style="flex: 0 0 33.33%; padding: 10px;"><a
+                                                                href="{{ route('search_id', ['id' => $itemcon->id]) }}">{{ $itemcon->name }}</a>
+                                                        </li>
+                                                    @endif
                                                 @endforeach
-                                               
-                                                
                                             </ul>
-                                            </div>
-                                        
+                                        </div>
                                     </li>
-                                    
                                 @endforeach
-
-
                             </ul>
                         </div>
+                        <style>
+
+                        </style>
                         <div class="nav-menu nav-menu-none">
                             <ul class="d-flex">
                                 <li class="menu-item_shop">
@@ -223,14 +223,14 @@
                         <div class="classy-menu">
                             <div class="classynav">
                                 @foreach ($Categories as $item)
-                                <ul>
-                                    @if ($item->parent_id == 0)
-                                    <li><a href="#">{{$item->name}}</a></li>
-                                    @endif
-                                   
-                                </ul>
+                                    <ul>
+                                        @if ($item->parent_id == 0)
+                                            <li><a href="#">{{ $item->name }}</a></li>
+                                        @endif
+
+                                    </ul>
                                 @endforeach
-                             
+
                             </div>
                             <!-- Nav End -->
                         </div>
@@ -239,13 +239,13 @@
                 <div class="col-lg-5 nav-right">
                     <div class="nav-meta d-flex">
                         <div class="search-area">
-                            <form action="#" method="get">
+                            <form action="{{ route('search') }}" method="get">
                                 <input type="search" name="keyword" id="headerSearch"
-                                    placeholder="Type for search">
+                                    placeholder="Từ khóa......">
                                 <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                             </form>
                         </div>
-                    
+
                         <div class="user-login-info">
                             <a href="#">
                                 <i class="fa-regular fa-user" id="essenceCart_User"></i>
@@ -311,7 +311,7 @@
                                     </li>
                                 @else
                                     <li class="list-group-item">
-                                        <a href="{{ url('register') }}" class="card-link">Register</a>
+                                        <a href="{{ url('register') }}" class="card-link">Đăng ký</a>
                                     </li>
                                 @endif
                         </div>
@@ -348,7 +348,6 @@
                                             <i class="fa fa-close" aria-hidden="true"></i>
                                         </a>
                                         <h6>{{ $item['name'] }}</h6>
-                                        <p class="size">Size: {{ $item['attribute_size_id'] }}</p>
                                         <p class="color">Color: {{ $item['attribute_color_id'] }}</p>
                                         <p class="color">Số Lượng: {{ $item['quantity'] }}</p>
                                         <p class="price">{{ number_format($item['price']) }}đ</p>
@@ -420,15 +419,15 @@
                         </div>
                         <!-- Footer Menu -->
                         <div class="footer_menu">
-                            <ul>
-                                <li><a href="shop.html">Shop</a></li>
-                                <li><a href="blog.html">Blog</a></li>
-                                <li><a href="contact.html">Contact</a></li>
+                            <img src="{{ url('assets-user') }}/img/theanh.png" alt="" style="object-fit: cover; max-width: 150px; max-height: 200px;">
+                            <ul style="color: aliceblue">
+                                <li>Số điện thoại: 0949191750</li>
+                                <li>Địa chỉ: 41 Phố Nguyễn Hoàng, Mỹ Đình 2, Từ Liêm, Hà Nội</li>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <!-- Single Widget Area -->
+                {{-- <!-- Single Widget Area -->
                 <div class="col-12 col-md-6">
                     <div class="single_widget_area mb-30">
                         <ul class="footer_widget_menu">
@@ -440,10 +439,10 @@
                             <li><a href="#">Terms of Use</a></li>
                         </ul>
                     </div>
-                </div>
+                </div> --}}
             </div>
 
-            <div class="row align-items-end">
+            {{-- <div class="row align-items-end">
                 <!-- Single Widget Area -->
                 <div class="col-12 col-md-6">
                     <div class="single_widget_area">
@@ -480,7 +479,7 @@
                         2022 All rights reserved | Made with #
                     </p>
                 </div>
-            </div>
+            </div> --}}
 
         </div>
     </footer>

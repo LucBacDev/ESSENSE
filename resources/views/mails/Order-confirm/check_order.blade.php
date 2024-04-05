@@ -45,7 +45,6 @@
             <tr>
                 <td scope="col" colspan="2">Product</td>
                 <td scope="col">Price</td>
-                <td scope="col">Attribute size</td>
                 <td scope="col">Attribute color</td>
                 <td scope="col">Quantity</td>
                 <td scope="col" class="text-end">Provisional Amount</td>
@@ -62,14 +61,14 @@
                     </td>
                     {{-- giá --}}
                     <td class="pd-15 product-price">{{ number_format($item['price']) }}</td>
-                    {{-- size --}}
-                    <td class="pd-15 product-size">
-                        {{ $item['attribute_size_id'] }}
-                    </td>
                     {{-- color --}}
-                    <td class="pd-15 product-color">
-                        {{ $item['attribute_color_id'] }}
-                    </td>
+                    @foreach ($attribute as $query)
+                    @if ($item['attribute_color_id'] == $query->id)
+                        <td class="pd-15 product-color">
+                            {{ $query->name }}
+                        </td>
+                    @endif
+                @endforeach
                     {{-- sl --}}
                     <td class="pd-15 product-quantity text-center">
                         {{ $item['quantity'] }}

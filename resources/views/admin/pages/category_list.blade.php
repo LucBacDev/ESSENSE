@@ -41,7 +41,7 @@
                             <tr>
                                 <th>STT</th>
                                 <th>Tên Danh Mục</th>
-                                <th>Trạng Thái</th>
+                                <th>Danh mục cha</th>
                                 <th>Tính Năng</th>
                             </tr>
                         </thead>
@@ -51,11 +51,18 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td><a href="{{ route('admin.category_list', $item->id) }}">{{ $item->name }}</a></td>
-                                    @if ($item->status == 1)
-                                        <td class="m-3 p-1 badge bg-success">Hiện</td>
-                                    @else
-                                        <td class="m-3 p-1 badge bg-danger">Ẩn</td>
+                                    @foreach ($Category as $query)
+                                         @if ($item->parent_id == $query->id)
+                                         @if ($query->id == 0)
+                                               <td class="m-3 p-1 badge bg-success">Danh mục gốc</td>
+                                         @else
+                                      
+                                    
+                                        <td class="m-3 p-1 badge bg-danger">{{$query->name}}</td>
+                                        @endif
                                     @endif
+                                    @endforeach
+                                   
                                     <td class="table-td-center">
                                         <a href="{{ route('admin.category_update_show', $item->id) }}" type="submit"
                                             class="btn btn-success">Sửa</a>

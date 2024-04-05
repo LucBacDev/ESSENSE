@@ -13,38 +13,46 @@
                     <table class="table table-hover table-bordered" id="sampleTable">
                         <thead>
                             <tr>
-                                <th>ID Đơn Hàng</th>
+                                <th>Mã Đơn Hàng</th>
                                 <th>Khách hàng</th>
-                                <th>Đơn hàng</th>
-                                <th>Số lượng</th>
+
+                                <th>Điện thoại </th>
                                 <th>Tổng tiền</th>
+
                                 <th>Tình trạng</th>
                                 <th>Thời Gian Khởi Tạo</th>
-                                <th>Tính năng</th>
+
+                                <th>Ghi chú</th>
+                                <th>Quản lý</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($order as $item)
-                                @foreach ($item->getNameOrder_details as $key)
-                                    <tr>
-                                        <td>{{ $item->id }}</td>
-                                        <td>{{ $item->Get_userName->full_name }}</td>
-                                        <td> {{ $key->name }}</td>
-                                        <td>{{ $key->quantity }}</td>
-                                        <td>{{ number_format($key->unit_price) }}đ</td>
-                                        <td><span class="badge bg-success">Hoàn thành</span></td>
-                                        <td>{{ $item->created_at }}</td>
+                                <tr>
+                                    <td>{{ $item->id }}</td>
+                                    <td>{{ $item->Get_userName->full_name }}</td>
 
-                                        <td>
-                                            <a href="{{route('admin.view_product',$key->id)}}" class="btn btn-info">Chi Tiết</a>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                    <td> {{ $item->Get_userName->phone }}</td>
+                                    <td>{{ number_format($item->total_price) }}</td>
+                                    @if ($item->status == 1)
+                                    <td><span class="badge bg-success">Đã xác nhận</span></td>
+                                    @else
+                                    <td><span class="badge bg-success">Chưa xác nhận</span></td>
+                                    @endif
+                                    <td>{{ $item->created_at }}</td>
+
+                                    <td>{{ $item->note }}</td>
+                                    <td><a href="{{ route('admin.view_product', $item->id) }}" class="btn btn-info">Chi Tiết</a></td>
+                            
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        {{ $order->appends(request()->input())->links() }}
     </div>
 @endsection

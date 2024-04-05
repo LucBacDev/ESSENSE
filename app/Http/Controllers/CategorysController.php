@@ -11,12 +11,14 @@ use DB;
 class CategorysController extends Controller
 {
 
-    public function category()
+    public function category(Request $request)
     {
-        // withQueryString() : retain parameters on url
-        $Categories = Categories::search()
-                    ->paginate(6)->withQueryString();
         
+        $Categories = Categories::orderBy('created_at','DESC')->paginate(6);
+        if($request->keyword){
+            $Categories = Categories::orderBy('created_at','DESC')->where('name','like','%'.$request->keyword.'%')->paginate(6);
+        }
+      
         return view('admin.pages.category', compact('Categories'));
     }
 
@@ -37,7 +39,7 @@ class CategorysController extends Controller
     }
     public function category_list($id)
     {
-        $Category = DB::table('Categories')->where('parent_id',$id)->paginate(6);
+        $Category = DB::table('Categories')->where('parent_id',$id)->orderBy('id', 'DESC')->paginate(6);
         $Categories = Categories::all();
         return view('admin.pages.category_list', compact('Categories', 'Category'));
     }

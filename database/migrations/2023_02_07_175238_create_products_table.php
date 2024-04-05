@@ -25,7 +25,6 @@ return new class extends Migration
             $table->bigInteger('brand_id')->unsigned();
             $table->string('origin',255);
             $table->string('year',255);
-            $table->integer('stock')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('brand_id')->references('id')->on('brands');
             $table->timestamps();

@@ -11,25 +11,25 @@ class Cart
     }
 
     // add
-    public function add($product, $quantity,$attribute_size_id,$attribute_color_id)
+    public function add($product, $quantity, $attribute_color_id,$product_atb_id)
     {
         $item = [
-            'id' => $product->id,
+            'id' => $product_atb_id,
             'name' => $product->name,
             'image' => $product->image,
             'quantity' => $quantity > 0 ? $quantity : 1,
             'brand_id' => $product->brand_id,
-            'attribute_size_id' => $attribute_size_id,
             'attribute_color_id' => $attribute_color_id,
             'price' => $product->sale_price > 0 ? $product->sale_price : $product->price
         ];
-        if (isset($this->items[$product->id])) {
+        if (isset($this->items[$product->id]) && isset($this->items[$attribute_color_id])) {
             $this->items[$product->id]['quantity'] += $quantity;
         } else {
             // save to the created array
-            $this->items[$product->id] = $item;
+            $this->items[$product_atb_id] = $item;
         }
         // save to the session
+
         session(['cart' => $this->items]);
     }
     public function update($id, $quantity)

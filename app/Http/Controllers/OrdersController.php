@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attributes;
+use App\Models\Product_attrs;
+use App\Models\Users;
 use Illuminate\Http\Request;
 use App\Models\Orders;
 use App\Models\Order_details;
+
 
 class OrdersController extends Controller
 {
@@ -15,8 +19,9 @@ class OrdersController extends Controller
      */
     public function orders()
     {
-        $order = Orders::all();
-        return view('admin.pages.orders',compact('order'));
+        $order = Orders::orderBy('created_at', 'DESC')->paginate(6);
+        $order_detail = Order_details::all();
+        return view('admin.pages.orders',compact('order','order_detail'));
     }
 
     /**
@@ -26,10 +31,17 @@ class OrdersController extends Controller
      */
     public function view_product($id)
     {
-
-        // $view_product = Order_details::where('order_id', $id)->get();
-        $view_product = Order_details::find($id);
-        return view('admin.pages.view_product',compact('view_product'));
+        $order_detail = Order_details::where('order_id', $id)->get();
+        $order = Orders::find($id);
+        $user = Users::where('id',$order->user_id)->first();
+        $product_atb = Product_attrs::all();
+        $attribute = Attributes::all();
+        $total_price = 0;
+        foreach ($order_detail as $value) {
+            $total_price = $total_price + $value->unit_price;
+        }
+        $total = $total_price+30000;
+        return view('admin.pages.view_product',compact('order_detail','order','user','product_atb','attribute','total_price','total'));
     }
 
     /**

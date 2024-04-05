@@ -5,13 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Brands;
 use App\Http\Requests\Brands\BrandsRequest;
+use DB;
 
 class BrandsController extends Controller
 {
-    public function brands()
+    public function brands(Request $request)
     {
-        $Brands = Brands::all();
-        return view('admin.pages.brands', compact('Brands'));
+        $Brand = Brands::orderBy('created_at','DESC')->paginate(6);
+        if($request->keyword){
+            $Brand = Brands::orderBy('created_at','DESC')->where('name','like','%'.$request->keyword.'%')->paginate(6);
+        }
+        return view('admin.pages.brands', compact('Brand'));
     }
     public function brands_add()
     {
@@ -19,7 +23,7 @@ class BrandsController extends Controller
     }
 
     // create brands
-    public function brands_create(BrandsRequest $req)
+    public function brands_create(Request $req)
     {
         if ($req->hasFile('logo')) {
             $file = $req->logo;

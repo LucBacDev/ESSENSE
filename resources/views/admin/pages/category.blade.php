@@ -6,10 +6,10 @@
         </ul>
         <ul class="app-breadcrumb breadcrumb side ">
             <li class="breadcrumb-item active">
-                <form action="" method="get">
+                <form action="{{ route('admin.category') }}" method="get">
                     <div class="input-group">
-                        <input type="text" name="keyword" class="input-search form-control rounded" placeholder="Search"
-                            aria-label="Search" aria-describedby="search-addon" />
+                        <input type="text" name="keyword" class="input-search form-control rounded"
+                            placeholder="Nhập tên danh mục" aria-label="Search" aria-describedby="search-addon" />
                         <button type="submit" class="btn-search btn btn-outline-primary">Search</button>
                     </div>
                 </form>
@@ -40,7 +40,7 @@
                             <tr>
                                 <th>STT</th>
                                 <th>Tên Danh Mục</th>
-                                <th>Trạng Thái</th>
+                                {{-- <th>Danh mục</th> --}}
                                 <th>Tính Năng</th>
                             </tr>
                         </thead>
@@ -50,17 +50,21 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td><a href="{{ route('admin.category_list', $item->id) }}">{{ $item->name }}</a></td>
-                                    
-                                    @if ($item->status == 1)
-                                        <td class="m-3 p-1 badge bg-success">Hiện</td>
-                                    @else
-                                        <td class="m-3 p-1 badge bg-danger">Ẩn</td>
-                                    @endif
+
+                                    {{-- @foreach ($Categories as $query)
+                                        @if ($item->parent_id == $query->id )
+                                           @if($query->parent_id = 0 )
+                                                <td class="">Danh mục gốc</td>
+                                            @else
+                                                <td class="">{{ $query->name }}</td>
+                                            @endif
+                                        @endif
+                                    @endforeach --}}
                                     <td class="table-td-center">
                                         <a href="{{ route('admin.category_update_show', $item->id) }}" type="submit"
                                             class="btn btn-success">Sửa</a>
                                         <a href="{{ route('admin.category_delete', $item->id) }}" type="submit"
-                                            class="btn btn-danger">Xóa</a>
+                                            class="btn btn-danger" onclick = "return confirm('Bạn có muốn xóa?')">Xóa</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -70,6 +74,6 @@
         </div>
     </div>
     <div class="d-flex justify-content-center">
-        {{-- {{ $Categories->links() }} --}}
+        {{ $Categories->appends(request()->input())->links() }}
     </div>
 @endsection

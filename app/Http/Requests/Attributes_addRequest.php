@@ -32,8 +32,8 @@ class Attributes_addRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Tên kích cỡ không được để trống',
-            'name.unique' => 'Tên kích cỡ đã có',
+            'name.required' => 'Tên thuộc tính không được để trống',
+            'name.unique' => 'Tên thuộc tính đã có',
             
         ];
     }

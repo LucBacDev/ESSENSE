@@ -1,58 +1,33 @@
 @extends('master_user')
 @section('container')
-    
+
     <!-- banner category -->
     {{-- {{dd(session()->get('cart'))}} --}}
     <section class="welcome_category">
-        <div class="container h-100">
-            {{-- allert notification --}}
-            @if (session('notification'))
-                <div class="alert alert-success text-center">
-                    {{ session('notification') }}
-                </div>
-            @endif
-            {{-- allert notification end --}}
-            <div class="row h-100">
-                <div class="col-lg-12">
-                    <div class="hero-content">
-                        <h6>asoss</h6>
-                        <h2>New Collection</h2>
-                        <a href="#" class="btn view_collection">view collection</a>
-                    </div>
-                </div>
-            </div>
+        {{-- allert notification --}}
+        @if (session('notification'))
+        <div class="alert alert-success text-center">
+            {{ session('notification') }}
         </div>
+    @endif
+    {{-- allert notification end --}}
+
+        @foreach ($banner as $item)
+        @if ($item->status == 1)
+            <img src="{{ url('image_brands') }}\{{ $item->image }}" alt="">
+        @endif
+        
+        @endforeach
+       </a>
     </section>
     <!-- end banner category -->
-
-    <!-- global sale -->
-    <div class="global_sale padding-40">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="sale-content bg-img background-overlay"
-                        style="background-image: url({{ url('assets-user') }}/img/bg-img/bg-5.jpg);">
-                        <div class="h-100 d-flex align-items-center justify-content-end">
-                            <div class="sale_text">
-                                <h6>-60%</h6>
-                                <h2>Global Sale</h2>
-                                {{-- <a href="#" class="btn check-btn">Buy Now</a> --}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- global sale end -->
-
     <!-- new product -->
     <section class="new_arrivals_area padding-80">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="product-heading text-center">
-                        <h2>Popular Products</h2>
+                        <h2>Điện thoại bán chạy</h2>
                     </div>
                 </div>
             </div>
@@ -60,14 +35,19 @@
 
         <div class="container">
             <div class="row">
-                @foreach ($popular as $value)
+                @foreach ($popular as $item)
+                    @foreach ($product as $value)
+                        @if ($item->product_id == $value->id)
+                     
                     <div class="col-lg-3 col-md-4 col-6">
                         <!-- Single Product -->
                         <div class="single-product-wrapper">
                             <!-- Product Image -->
-                            <div class="product-img">
+                            <div class="product-img" style="height: 240px;overflow: hidden;">
                                 <a href="{{ route('product', $value->id) }}">
-                                    <img src="{{ url('upload.product') }}/{{ $value->image }}" alt=""></a>
+                                    <img class="img-fluid" src="{{ url('upload.product') }}/{{ $value->image }}"
+                                        alt="" style="object-fit: cover; width: 100%; height: 100%;">
+                                </a>
                                 <!-- Hover Thumb -->
                                 {{-- <img class="hover-img" src="{{ url('assets-user') }}/img/product-img/product-2.jpg"
                                 alt=""> --}}
@@ -77,24 +57,30 @@
                                 <a href="{{ route('product', $value->id) }}">
                                     <h6>{{ $value->name }}</h6>
                                 </a>
-                                <div class="d-flex justify-content-between">
+                                <div class="d-flex justify-content-space-around">
+                                    <p class="product-price text-danger"
+                                        style="display: inline-block; margin-right:10px;font-size:18px">
+                                        {{ number_format($value->sale_price) }}đ</p>
                                     <p>
-                                        <del class="product-price">{{ number_format($value->price) }}đ</del>
+                                    <p>
+                                        <del class="product-price"
+                                            style="vertical-align: -webkit-baseline-middle">{{ number_format($value->price) }}đ</del>
                                     </p>
-                                    <p class="product-price text-danger" style="display: inline-block">{{ number_format($value->sale_price) }}đ</p>
                                 </div>
 
                                 <!-- Hover Content -->
                                 <div class="hover-content">
                                     <!-- Add to Cart -->
                                     <div class="add-to-cart-btn">
-                                        <a href="{{ route('product', $value->id) }}" class="btn essence-btn check-btn">View Product Details</a>
+                                        <a href="{{ route('product', $value->id) }}" class="btn essence-btn check-btn">Xem điện thoại</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </form>
+                           
+                    @endif
+                    @endforeach
                 @endforeach
             </div>
         </div>
@@ -105,19 +91,11 @@
     <div class="banner-info">
         <div class="container-fuild">
             <div class="row">
-                <div class="col-lg-6">
+              
                     <div class="banner-img bg-img">
-                        <img src="{{ url('assets-user') }}/img/core-img/sp1.jpg" alt="">
+                        <img src="{{ url('assets-user') }}/img/sale.png" alt="">
                     </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="banner-title">
-                        <h2>Essence</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus inventore a ipsam
-                            doloremque aliquid impedit aperiam, accusantium consequatur numquam quasi fugit id. Eveniet
-                            quos earum minima perferendis tempora perspiciatis vel!</p>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -129,7 +107,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="product-heading text-center">
-                        <h2>New Products</h2>
+                        <h2>Điện thoại mới</h2>
                     </div>
                 </div>
             </div>
@@ -143,6 +121,7 @@
                         <div class="single-product-wrapper">
                             <!-- Product Image -->
                             <div class="product-img">
+                                
                                 <a href="{{ route('product', $value->id) }}">
                                     <img src="{{ url('upload.product') }}/{{ $value->image }}" alt="">
                                 </a>
@@ -157,18 +136,23 @@
                                 <a href="{{ route('product', $value->id) }}">
                                     <h6>{{ $value->name }}</h6>
                                 </a>
-                                <div class="d-flex justify-content-between">
+                                <div class="d-flex justify-content-space-around">
+                                    <p class="product-price text-danger"
+                                        style="display: inline-block; margin-right:10px;font-size:18px">
+                                        {{ number_format($value->sale_price) }}đ</p>
                                     <p>
-                                        <del class="product-price">{{ number_format($value->price) }}đ</del>
-                                    </p>
-                                    <p class="product-price text-danger" style="display: inline-block">{{ number_format($value->sale_price) }}đ</p>
+                                    <p>
+                                        <del class="product-price"
+                                            style="vertical-align: -webkit-baseline-middle">{{ number_format($value->price) }}đ</del>
+
                                 </div>
 
                                 <!-- Hover Content -->
                                 <div class="hover-content">
                                     <!-- Add to Cart -->
                                     <div class="add-to-cart-btn">
-                                        <a href="{{ route('product', $value->id) }}" class="btn essence-btn check-btn">View Product Details</a>
+                                        <a href="{{ route('product', $value->id) }}" class="btn essence-btn check-btn">View
+                                            Product Details</a>
                                     </div>
                                 </div>
                             </div>
@@ -179,30 +163,4 @@
         </div>
     </section>
     <!-- new product 2 end  -->
-
-    <!-- .discount -->
-    <div class="discount padding-40">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="section_title">
-                        <h2>Get <span>20% Off</span> Your Next Order</h2>
-                    </div>
-                    <div class="discount_container">
-                        <div class="subscribe_form">
-                            <form id="mc-form" class="mc-form footer-discount" novalidate="true">
-                                <input id="mc-email" type="email" autocomplete="off" placeholder="Enter you email"
-                                    name="EMAIL">
-                                <button id="mc-submit">Subscribe</button>
-                                <div class="email_icon">
-                                    <i class="fa-regular fa-envelope"></i>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- .discount end -->
 @endsection

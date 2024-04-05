@@ -1,25 +1,34 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Banner;
 use App\Models\Categories;
 use Illuminate\Http\Request;
+use App\Http\Requests\BannerRequest;
+
+
+
 
 class BannersController extends Controller
 {
     public function banners()
     {
-        return view('admin.pages.banners');
+        $banner = Banner::all();
+        $category = Categories::all();
+        return view('admin.pages.banners', compact('banner','category'));
     }
     public function banners_add()
     {
         $Category = Categories::all();
         return view('admin.pages.banners_add', compact('Category'));
     }
-    // create brands
-    public function brands_create(BrandsRequest $req)
+    
+    public function banners_create(BannerRequest $req)
     {
-        if ($req->hasFile('logo')) {
-            $file = $req->logo;
+        
+        if ($req->hasFile('image')) {
+            
+            $file = $req->image;
             // get name
             $file_name = $file->getClientOriginalName();
             // go to folder
@@ -27,53 +36,54 @@ class BannersController extends Controller
         } else {
             $file_name = '';
         }
-        try {
-            Brands::create([
+        
+            Banner::create([
                 'name' => $req->name,
-                'logo' => $file_name,
+                'image' => $file_name,
                 'status' => $req->status,
+                'category_id'=>$req-> category_id
             ]);
-            return redirect()->route('admin.brands')->with('notification', 'Thêm mới thành công');
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
+            return redirect()->route('admin.banners')->with('notification', 'Thêm mới thành công');
+        
     }
 
     // show brands
-    public function brands_update_show($id)
+    public function banners_update_show($id)
     {
-        $Brands = Brands::find($id);
-        return view('admin.pages.brands_update_show',compact('Brands'));
+        $banner = Banner::find($id);
+        $category = Categories::all();
+        return view('admin.pages.banners_update_show',compact('banner','category'));
     }
 
     // update brands
-    public function brands_update_update (Request $req ,$id)
+    public function banners_update_update (Request $req ,$id)
     {
-        $Brands = Brands::find($id);
-        if ($req->hasFile('logo')) {
-            $file = $req->logo;
+        $Banner = Banner::find($id);
+        if ($req->hasFile('image')) {
+            $file = $req->image;
             // get name
             $file_name = $file->getClientOriginalName();
             // go to folder
             $file->move('image_brands', $file_name);
         } else {
-            $file_name = $Brands->logo;
+            $file_name = $Banner->image;
         }
         try {
-            $Brands->update([
+            $Banner->update([
                 'name' => $req->name,
-                'logo' => $file_name,
+                'image' => $file_name,
                 'status' => $req->status,
+                'category_id' =>$req->category_id
             ]);
-            return redirect()->route('admin.brands')->with('notification', 'Cập nhật thành công');
+            return redirect()->route('admin.banners')->with('notification', 'Cập nhật thành công');
         } catch (\Throwable $th) {
             //throw $th;
         }
     }
     // delete brands
-    public function brands_delete($id)
+    public function banners_delete($id)
     {
-        $Brands = Brands::find($id)->delete();
+        $Banner = Banner::find($id)->delete();
         return redirect()->back()->with('notification','Xóa Thành Công');
     }
 }

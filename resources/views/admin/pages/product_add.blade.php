@@ -30,7 +30,7 @@
                         </div>
                         <div class="form-group  col-md-3">
                             <label class="control-label">Giá Khuyến Mại</label>
-                            <input class="form-control" type="text" name="sale_price" value="{{old('sale_price')}}">
+                            <input class="form-control" type="text" name="sale_price" value="{{ old('sale_price') }}">
                             @error('sale_price')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -49,13 +49,6 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-group  col-md-3">
-                            <label class="control-label">Tồn kho</label>
-                            <input class="form-control" type="number" name="stock" value="{{ old('stock') }}">
-                            @error('stock')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
                         <div class="form-group col-md-3">
                             <label for="exampleSelect1" class="control-label">Danh Mục</label>
                             <select class="form-control" id="exampleSelect1" name="category_id"
@@ -69,7 +62,7 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                       
+
                         <div class="form-group col-md-3">
                             <label for="exampleSelect1" class="control-label">Thương Hiệu</label>
                             <select class="form-control" id="exampleSelect1" name="brand_id">
@@ -82,7 +75,7 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        
+
                         <div class="form-group col-md-3 ">
                             <label for="exampleSelect1" class="control-label">Trạng Thái</label>
                             <div class="form-check">
@@ -101,37 +94,6 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-group col-md-3">
-                            <label for="exampleSelect1" class="control-label">Kích thước</label>
-                            <div class="form-check">
-                                @foreach ($size as $value)
-                                    <div>
-                                        <input class="form-check-input" type="checkbox" id="check1"
-                                            name="attr_size_id[]" value="{{ $value->id }}">
-                                        <label class="form-check-label">{{ $value->value }}</label>
-                                    </div>
-                                @endforeach
-                            </div>
-                            @error('size_id')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="exampleSelect1" class="control-label">Màu sắc</label>
-                            <div class="form-check">
-                                @foreach ($color as $value)
-                                    <div>
-                                        <input class="form-check-input" type="checkbox" id="check1"
-                                            name="attr_color_id[]" value="{{ $value->id }}">
-                                        <label class="form-check-label">{{ $value->value }}</label>
-                                    </div>
-                                @endforeach
-                            </div>
-                            @error('color_id')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-
                         <div class="form-group  col-md-12">
                             <label class="control-label">Mô tả</label>
                             <textarea id="editor1" rows="10" cols="80" form="usrform" name="description"
@@ -144,21 +106,65 @@
                         </div>
                         <div class="form-group col-md-12 p-3">
                             <label class="control-label pr-1">Ảnh Sản Phẩm:</label>
-                            <input type="file" id="" name="image" value="{{ old('image') }}" />
+                            <input type="file" id="product-image" name="image" value="{{ old('image') }}"
+                                onchange="previewImage(this, 'product-image-preview');" />
+                            <div id="product-image-preview"></div>
                             @error('image')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
+
                         <div class="form-group col-md-12 p-3">
                             <label class="control-label pr-1">Ảnh mô tả sản phẩm:</label>
-                            <input type="file" id="" name="images[]" multiple
-                                value="{{ old('images') }}" />
+                            <input type="file" id="description-images" name="images1[]" multiple
+                                value="{{ old('images1') }}"
+                                onchange="previewImage(this, 'description-images-preview');" />
+                            <div id="description-images-preview"></div>
                         </div>
-                        <div class="form-group">
-                            <td class="table-td-center">
+                        <table id="attribute-table">
+                            <thead>
+                                <tr>
+                                    <th>Chọn thuộc tính</th>
+                                    <th>Chọn ảnh cho thuộc tính</th>
+                                    <th>Số lượng</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="attribute-row">
+                                    <td>
+                                        <select name="attributes[]" class="">
+                                            <option value="">-- Chọn thuộc tính --</option>
+                                            @foreach ($attribute as $item)
+                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="file" name="images2[]" class="image"
+                                            value="{{ old('images2') }}"
+                                            onchange="previewImages(this, 'image-preview-3')" />
+                                        <div id="image-preview-3"></div>
+                                        @error('images')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </td>
+                                    <td><input type="number" name="stocks[]" /></td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger remove-row">Xóa</button>
+                                        <button type="button" class="btn btn-primary add-row">Thêm</button>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <div class="form-group d-flex justify-content-center">
+                            <div class="text-center" style="margin: 20px 20px">
                                 <button type="submit" class="btn btn-success">Lưu</button>
+                            </div>
+                            <div class="text-center" style="margin: 20px 20px">
                                 <a href="{{ route('admin.product') }}" type="submit" class="btn btn-danger">Hủy</a>
-                            </td>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -169,6 +175,57 @@
     <script src="{{ url('assets-admin') }}/ckeditor/ckeditor.js"></script>
     <script>
         CKEDITOR.replace('editor1');
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('#attribute-table').addEventListener('click', function(event) {
+                if (event.target.classList.contains('remove-row')) {
+                    const row = event.target.closest('.attribute-row');
+                    row.parentNode.removeChild(row);
+                } else if (event.target.classList.contains('add-row')) {
+                    const newRow = document.querySelector('.attribute-row').cloneNode(true);
+                    document.querySelector('#attribute-table tbody').appendChild(newRow);
+                }
+            });
+        });
+
+        function previewImage(input, divId) {
+            var preview = document.getElementById(divId);
+            preview.innerHTML = '';
+
+            if (input.files && input.files.length > 0) {
+                for (var i = 0; i < input.files.length; i++) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(event) {
+                        var image = document.createElement('img');
+                        image.src = event.target.result;
+                        image.style.width = '100px'; // Thiết lập kích thước ảnh
+                        preview.appendChild(image);
+                    }
+
+                    reader.readAsDataURL(input.files[i]);
+                }
+            }
+        }
+
+        function previewImages(input, divId) {
+            var preview = input.closest('.attribute-row').querySelector('#' + divId);
+            preview.innerHTML = '';
+
+            if (input.files && input.files.length > 0) {
+                for (var i = 0; i < input.files.length; i++) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(event) {
+                        var image = document.createElement('img');
+                        image.src = event.target.result;
+                        image.style.width = '100px'; // Thiết lập kích thước ảnh
+                        preview.appendChild(image);
+                    }
+
+                    reader.readAsDataURL(input.files[i]);
+                }
+            }
+        }
     </script>
 @endsection
 @endsection

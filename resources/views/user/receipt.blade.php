@@ -52,8 +52,8 @@
                                 <div class=" col-12 mb-3">
                                     <label for="exampleSelect1" class="control-label">Phương thức thanh toán</label>
                                     <select class="form-control" id="exampleSelect1" name="payment_method" value="">
-                                      
-                                            <option value="1"> Thanh toán khi nhận hàng</option>                                        
+
+                                        <option value="1"> Thanh toán khi nhận hàng</option>
                                     </select>
                                 </div>
                             </div>
@@ -71,7 +71,6 @@
                                     <tr>
                                         <th scope="col" colspan="2">Product</th>
                                         <th scope="col">Price</th>
-                                        <th scope="col">Size</th>
                                         <th scope="col">Color</th>
                                         <th scope="col">Quantity</th>
                                         <th scope="col" class="text-end">Provisional Amount</th>
@@ -91,14 +90,15 @@
                                             </td>
                                             {{-- giá --}}
                                             <th class="pd-15 product-price">{{ number_format($item['price']) }}</th>
-                                            {{-- size --}}
-                                            <td class="pd-15 product-size">
-                                                {{ $item['attribute_size_id'] }}
-                                            </td>
+
                                             {{-- color --}}
-                                            <td class="pd-15 product-color">
-                                                {{ $item['attribute_color_id'] }}
-                                            </td>
+                                            @foreach ($attribute as $query)
+                                                @if ($item['attribute_color_id'] == $query->id)
+                                                    <td class="pd-15 product-color">
+                                                        {{ $query->name }}
+                                                    </td>
+                                                @endif
+                                            @endforeach
                                             {{-- sl --}}
                                             <td class="pd-15 product-quantity text-center">
                                                 {{ $item['quantity'] }}
@@ -126,10 +126,10 @@
                     </div>
                 </div>
                 </form>
-                <form method="POST" action="{{ route('vnpay') }}">
+                {{-- <form method="POST" action="{{ route('vnpay') }}">
                     @csrf
                     <button type="submit" name="redirect">Thanh toán qua VNPAY</button>
-                </form>
+                </form> --}}
             </div>
         </div>
     </div>

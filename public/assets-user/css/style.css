@@ -292,10 +292,9 @@ img {
 /* welcome cus */
 .welcome_category {
     position: relative;
-    background-image: url(../img/banner/banner1.jpg);
     z-index: 1;
     width: 100%;
-    min-height: 1000px;
+    min-height: 400px;
 }
 .hero-content {
     position: absolute;

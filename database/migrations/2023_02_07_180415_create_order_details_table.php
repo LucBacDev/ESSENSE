@@ -20,9 +20,8 @@ return new class extends Migration
             $table->string('name', 255);
             $table->integer('quantity')->unsigned(); 
             $table->integer('unit_price');
-            $table->string('size',255);
             $table->tinyInteger('status')->nullable();
-            $table->foreign('pro_id')->references('id')->on('products');
+            $table->foreign('pro_id')->references('id')->on('product_attrs');
             $table->foreign('order_id')->references('id')->on('orders');
             $table->timestamps();
         });

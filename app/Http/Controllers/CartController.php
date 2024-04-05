@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Orders;
+use App\Models\Attributes;
+use App\Models\Product_attrs;
 use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\Order_details;
@@ -17,18 +19,24 @@ class CartController extends Controller
 {
     public function add(Request $req, $id)
     {
+        
         $product = Products::find($id);
+        $product_atb = Product_attrs::all();
         $quantity = $req->quantity;
-        $attribute_size_id = $req->attribute_size_id;
-        $attribute_color_id = $req->attribute_color_id;
+        $color_id = $req->attribute_color_id;
+        foreach ($product_atb as $value) {
+            if ($value->product_id == $id && $value->attribute_color_id == $color_id) {
+                $product_atb_id = $value->id;
+            }
+        }
         $cart = new Cart();
-        $cart->add($product, $quantity, $attribute_size_id, $attribute_color_id);
+        $cart->add($product, $quantity, $color_id,$product_atb_id);
         return redirect()->route('show_card');
     }
     public function show(Cart $cart)
     {
-        // dd($cart->getItem());
-        return view('user.cart', compact('cart'));
+        $attribute = Attributes::all();
+        return view('user.cart', compact('cart','attribute'));
     }
     public function update(Request $req, $id)
     {
@@ -49,16 +57,16 @@ class CartController extends Controller
     public function checkout()
     {
         if (Auth::check()) {
-            $payment_method = payment_method::all();
-            return view('user.receipt', compact('payment_method'));
+            $attribute = Attributes::all();
+            return view('user.receipt',  compact('attribute'));
         } else {
-            return redirect()->route('login')->with('notification', 'Please Login To Continue Shopping');
+            return redirect()->route('login')->with('notification', 'Vui lòng đăng nhập để mua hàng');
         }
     }
     public function Postcheckout(Request $request, Cart $cart)
     {
-        try {
-
+        // try {
+            $attribute = Attributes::all();
             $total_qty = 0;
             $total_price = 0;
             $token = strtoupper(Str::random(20));
@@ -79,6 +87,7 @@ class CartController extends Controller
                 'note' => $request->note,
                 'payment_method' => $request->payment_method
             ]);
+            $product_atb = Product_attrs::all();
             foreach ($cart->getItem() as $item) {
                 Order_details::create([
                     'order_id' => $order->id,
@@ -86,18 +95,27 @@ class CartController extends Controller
                     'name' => $item['name'],
                     'quantity' => $item['quantity'],
                     'unit_price' => $item['quantity'] * $item['price'],
-                    'size' => $item['attribute_size_id']
                 ]);
+
+                $product = $product_atb->where('id', $item['id'])->first();
+                $product->stock = $product->stock - $item['quantity'];
+                // $product->update([
+                //             'stock' => $product->stock - $item['quantity']
+                //         ]);
+                $product->save();
             }
-            Mail::send('mails.Order-confirm.check_order', compact('order'), function ($email) use ($order) {
+             
+
+            Mail::send('mails.Order-confirm.check_order', compact('order','attribute'), function ($email) use ($order) {
                 $email->subject('Xác nhận đơn hàng');
                 $email->to($order->email, $order->name);
 
             });
-
-            return redirect()->route('user.index')->with('notification', 'Thank you for your purchase!, Please check gmail to accept!');
-        } catch (\Throwable $th) {
-            dd($th);
-        }
+            $cart->remove();
+            return redirect()->route('user.index')->with('notification', 'Cám ơn đã đặt hàng!, Vui lòng check mail để xác nhận đơn hàng');
+        // } 
+        // catch (\Throwable $th) {
+        //     dd($th);
+        // }
     }
 }

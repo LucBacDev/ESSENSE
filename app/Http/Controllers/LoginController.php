@@ -75,13 +75,18 @@ class LoginController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
+        $user = Users::where('email', $request->email)->first();
 
+    if (!$user || !Hash::check($request->password, $user->password)) {
+        return redirect()->back()->with('notification', 'Incorrect email or password');
+    }
+       
         if (Auth::attempt($credentials)) {
             $User = Auth::user();
             if ($User->status == 1) {
                 return redirect()->route('user.index');
             } else {
-                Mail::send('mails.get_verification_code', compact('User'), function ($email) use ($User) {
+                Mail::send('mails.Active-account.mail_active', compact('User'), function ($email) use ($User) {
                     $email->subject('Get Verification Code');
                     $email->to($User->email, $User->name);
                 });
